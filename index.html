@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Xuất Name Sangtacviet</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 30px auto; padding: 20px; }
+    input, button { padding: 10px; width: 100%; margin-top: 10px; }
+    .file-list { text-align: left; margin-top: 20px; }
+    .file-item { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>Xuất Name Sangtacviet</h1>
+  <input type="text" id="stvLink" placeholder="Dán link truyện tại đây..." />
+  <button onclick="fetchNames()">Lấy danh sách name</button>
+
+  <div id="fileContainer" class="file-list"></div>
+  <button onclick="downloadSelected()" id="downloadBtn" style="display:none;">Tải file .txt đã chọn</button>
+
+  <script>
+    let allNamePacks = [];
+
+    function fetchNames() {
+      document.getElementById("fileContainer").innerHTML = "";
+      document.getElementById("downloadBtn").style.display = "none";
+
+      let url = document.getElementById("stvLink").value.trim();
+      if (!url.includes("/truyen/")) {
+        alert("Link không hợp lệ!");
+        return;
+      }
+      if (url.slice(-1) === "/") url = url.slice(0, -1);
+
+      let host = url.split('/truyen/')[0];
+      let params = url.split('/truyen/')[1].split('/');
+      let bookid = params[2];
+      let bookhost = params[0];
+
+      if (!bookhost || !bookid) {
+        alert("Link sai!");
+        return;
+      }
+
+      let encoded = encodeURIComponent(`${host}/namesys.php?host=${bookhost}&book=${bookid}`);
+      let url1 = `https://web.scraper.workers.dev/?url=${encoded}&selector=body&scrape=html`;
+
+      fetch(url1)
+        .then(res => res.json())
+        .then(data => {
+          allNamePacks = parseNamePacks(data.result);
+
+          if (!allNamePacks.length) {
+            alert("Không có dữ liệu!");
+            return;
+          }
+
+          let container = document.getElementById("fileContainer");
+          allNamePacks.forEach((pack, i) => {
+            let label = document.createElement("label");
+            label.className = "file-item";
+            let checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = i;
+            checkbox.checked = true;
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(` ${pack.title} (${pack.wordCount} từ, ${pack.time})`));
+            container.appendChild(label);
+            container.appendChild(document.createElement("br"));
+          });
+
+          document.getElementById("downloadBtn").style.display = "block";
+        })
+        .catch(err => {
+          alert("Lỗi khi tải dữ liệu.");
+          console.error(err);
+        });
+    }
+
+    function parseNamePacks(html) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const body = doc.body;
+      const children = Array.from(body.childNodes);
+
+      const packs = [];
+      for (let i = 0; i < children.length; i++) {
+        const node = children[i];
+
+        if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+          const nameTitle = node.textContent.trim();
+
+          const divNode = children[i + 1];
+          const wordCountNode = children[i + 2];
+          const timeNode = children[i + 3];
+
+          if (divNode && divNode.tagName === "DIV") {
+            const nameContent = divNode.textContent.trim();
+            const wordCount = wordCountNode?.textContent?.trim();
+            const time = timeNode?.textContent?.trim();
+
+            packs.push({
+              title: nameTitle,
+              content: nameContent,
+              wordCount,
+              time
+            });
+          }
+        }
+      }
+      return packs;
+    }
+
+    function downloadSelected() {
+      const checkboxes = document.querySelectorAll("#fileContainer input[type='checkbox']");
+      let count = 0;
+
+      checkboxes.forEach(cb => {
+        if (cb.checked) {
+          let i = parseInt(cb.value);
+          const pack = allNamePacks[i];
+
+          let text = pack.content;
+          if (text.startsWith("$")) text = text.slice(1);
+          text = text.split('\n$').join('\n');
+
+          const content = `# ${pack.title}\n# ${pack.wordCount} từ\n# ${pack.time}\n\n${text}`;
+          const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+          saveAs(blob, `${pack.title.replace(/\s+/g, '_')}.txt`);
+          count++;
+        }
+      });
+
+      if (count === 0) alert("Bạn chưa chọn file nào!");
+    }
+  </script>
+</body>
+</html>
