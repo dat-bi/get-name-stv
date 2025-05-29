@@ -3,122 +3,971 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trình Tải Name Sangtacviet (Nâng cao)</title>
+    <title>Sangtacviet Names Downloader</title>
     <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
         .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 700px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
             text-align: center;
-            margin-bottom: 20px;
         }
-        h1 {
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
             color: #333;
-            margin-bottom: 20px;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
         }
-        input[type="text"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
         }
-        button {
-            background-color: #007bff;
+
+        .input-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .example {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .example strong {
+            color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
-        button:hover {
-            background-color: #0056b3;
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
-        .instructions {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #555;
-            text-align: left;
+
+        .btn:active {
+            transform: translateY(0);
         }
-        .instructions p {
-            margin-bottom: 5px;
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
-        .instructions code {
-            background-color: #e9e9e9;
-            padding: 2px 5px;
-            border-radius: 3px;
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9em;
+            min-width: 100px;
         }
-        #resultsArea {
+
+        .status {
             margin-top: 20px;
             padding: 15px;
-            background-color: #e9ecef;
-            border-radius: 4px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #b3d4fc;
+            border-radius: 50%;
+            border-top-color: #0c5460;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .names-list {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .names-list h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .name-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             text-align: left;
-            max-height: 300px;
+            transition: transform 0.2s ease;
+        }
+
+        .name-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .name-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .name-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+
+        .name-meta {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9em;
+            flex-wrap: wrap;
+        }
+
+        .name-content {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            max-height: 120px;
             overflow-y: auto;
-            min-height: 50px; /* Để có không gian cho thông báo ban đầu */
+            border-left: 4px solid #667eea;
         }
-        #resultsArea p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-        #resultsArea .package-info {
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
+
+        .name-line {
             margin-bottom: 5px;
-        }
-        #resultsArea .package-info:last-child {
-            border-bottom: none;
-        }
-        #resultsArea code { /* Kiểu cho code trong resultsArea */
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 2px 4px;
-            border-radius: 3px;
             font-family: monospace;
-            word-break: break-all;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .name-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .name-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .name-meta {
+                justify-content: flex-start;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📥 Trình Tải Name Sangtacviet (Nâng cao)</h1>
-        <input type="text" id="urlInput" placeholder="Dán URL truyện vào đây (ví dụ: https://sangtacviet.app/truyen/uukanshu/82614/ten-truyen/)">
-        <button id="downloadButton">Tải Names</button>
-
-        <div id="resultsArea">
-            <p>Thông tin các gói name sẽ xuất hiện ở đây...</p>
+        <div class="header">
+            <h1>📚 Names Downloader</h1>
+            <p>Tải xuống danh sách names từ Sangtacviet một cách dễ dàng</p>
         </div>
 
-        <div class="instructions">
-            <p><strong>Hướng dẫn:</strong></p>
-            <p>1. Sao chép URL của truyện từ Sangtacviet (ví dụ: <code>https://sangtacviet.app/truyen/uukanshu/82614/ten-truyen/</code>).</p>
-            <p>2. Dán vào ô phía trên.</p>
-            <p>3. Nhấn nút "Tải Names". Các gói name tìm thấy sẽ được liệt kê.</p>
-            <p>4. Một tệp <code>.zip</code> chứa các file name (<code>.txt</code>) từ tất cả các gói sẽ được tự động tải xuống.</p>
+        <form id="searchForm">
+            <div class="input-group">
+                <label for="urlInput">Nhập URL truyện Sangtacviet:</label>
+                <input type="url" id="urlInput" placeholder="https://sangtacviet.com/truyen/host/title/bookid" required>
+                <div class="example">
+                    <strong>Ví dụ:</strong> https://sangtacviet.com/truyen/uuxs/example-title/82614
+                </div>
+            </div>
+
+            <button type="submit" class="btn" id="searchBtn">
+                Tìm Names
+            </button>
+        </form>
+
+        <div id="status" class="status"></div>
+
+        <div id="namesList" class="names-list">
+            <h2>📋 Danh sách Names có sẵn</h2>
+            <div id="namesContainer"></div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+            
+            if (type === 'loading') {
+                statusDiv.innerHTML = `<div class="loading-spinner"></div>${message}`;
+            } else {
+                statusDiv.innerHTML = message;
+            }
+        }
 
-    <script src="script.js" defer></script> 
+        function hideStatus() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.style.display = 'none';
+        }
+
+        function parseNamesData(htmlContent) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+            const divs = doc.querySelectorAll('div[style*="white-space:nowrap"]');
+            
+            const names = [];
+            
+            divs.forEach((div, index) => {
+                const content = div.textContent.trim();
+                if (content) {
+                    // Tìm số lượng từ và thời gian
+                    let nextElement = div.parentElement.nextSibling;
+                    let wordCount = '';
+                    let timestamp = '';
+                    let title = '';
+                    
+                    // Lấy title từ element trước div
+                    let prevElement = div.parentElement.previousSibling;
+                    while (prevElement) {
+                        if (prevElement.nodeType === Node.TEXT_NODE && prevElement.textContent.trim()) {
+                            title = prevElement.textContent.trim();
+                            break;
+                        }
+                        prevElement = prevElement.previousSibling;
+                    }
+                    
+                    // Lấy word count và timestamp
+                    while (nextElement) {
+                        if (nextElement.nodeType === Node.TEXT_NODE) {
+                            const text = nextElement.textContent.trim();
+                            if (text && /^\d+$/.test(text)) {
+                                wordCount = text;
+                            } else if (text && text.includes('-')) {
+                                timestamp = text;
+                                break;
+                            }
+                        }
+                        nextElement = nextElement.nextSibling;
+                    }
+                    
+                    names.push({
+                        title: title || `Gói ${index + 1}`,
+                        content: content,
+                        wordCount: wordCount || 'N/A',
+                        timestamp: timestamp || 'N/A',
+                        index: index
+                    });
+                }
+            });
+            
+            return names;
+        }
+
+        function createNameItem(nameData) {
+            const lines = nameData.content.split('\n').filter(line => line.trim());
+            const displayLines = lines.slice(0, 5); // Hiển thị 5 dòng đầu
+            const hasMore = lines.length > 5;
+            
+            return `
+                <div class="name-item">
+                    <div class="name-header">
+                        <div class="name-title">${nameData.title}</div>
+                        <div class="name-meta">
+                            <span>📊 ${nameData.wordCount} từ</span>
+                            <span>🕒 ${nameData.timestamp}</span>
+                        </div>
+                    </div>
+                    <div class="name-content">
+                        ${displayLines.map(line => `<div class="name-line">${line}</div>`).join('')}
+                        ${hasMore ? `<div class="name-line" style="color: #999; font-style: italic;">... và ${lines.length - 5} dòng khác</div>` : ''}
+                    </div>
+                    <div class="name-actions">
+                        <button class="btn btn-small" onclick="downloadNameFile('${nameData.title}', \`${nameData.content.replace(/`/g, '\\`')}\`)">
+                            📥 Tải xuống TXT
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function downloadNameFile(title, content) {
+            // Xử lý content: loại bỏ $ ở đầu dòng và thay thế \n$
+            let processedContent = content;
+            if (processedContent.startsWith("$")) {
+                processedContent = processedContent.substring(1);
+            }
+            processedContent = processedContent.split('\n$').join('\n');
+            
+            // Tạo blob và tải xuống
+            const blob = new Blob([processedContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title.replace(/[^a-zA-Z0-9]/g, '_')}_names.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showStatus(`Đã tải xuống file "${title}"`, 'success');
+        }
+
+        async function fetchNamesData(url) {
+            if (url.slice(-1) === "/") url = url.slice(0, -1);
+
+            let host = url.split('/truyen/')[0];
+            let params = url.split('/truyen/')[1].split('/');
+            let bookid = params[2];
+            let bookhost = params[0];
+
+            if (!bookhost || !bookid) {
+                throw new Error("Link sai định dạng!");
+            }
+
+            // Sử dụng trực tiếp API của sangtacviet
+            let apiUrl = `${host.replace('sangtacviet.com', 'sangtacviet.app')}/namesys.php?host=${bookhost}&book=${bookid}`;
+
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const htmlContent = await response.text();
+            return parseNamesData(htmlContent);
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const urlInput = document.getElementById('urlInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const namesList = document.getElementById('namesList');
+            const namesContainer = document.getElementById('namesContainer');
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                showStatus('Vui lòng nhập URL!', 'error');
+                return;
+            }
+
+            if (!url.includes('/truyen/')) {
+                showStatus('URL không đúng định dạng! Vui lòng kiểm tra lại.', 'error');
+                return;
+            }
+
+            searchBtn.disabled = true;
+            searchBtn.textContent = 'Đang tìm...';
+            showStatus('Đang tìm kiếm names...', 'loading');
+            namesList.style.display = 'none';
+
+            try {
+                const names = await fetchNamesData(url);
+                
+                if (names.length === 0) {
+                    showStatus('Không tìm thấy names nào cho truyện này!', 'error');
+                    return;
+                }
+
+                namesContainer.innerHTML = names.map(createNameItem).join('');
+                namesList.style.display = 'block';
+                showStatus(`Tìm thấy ${names.length} gói names!`, 'success');
+                
+            } catch (error) {
+                console.error('Search failed:', error);
+                showStatus(`Lỗi: ${error.message}`, 'error');
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'Tìm Names';
+            }
+        });
+
+        // Clear status when user starts typing
+        document.getElementById('urlInput').addEventListener('input', function() {
+            hideStatus();
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sangtacviet Names Downloader</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .example {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .example strong {
+            color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9em;
+            min-width: 100px;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #b3d4fc;
+            border-radius: 50%;
+            border-top-color: #0c5460;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .names-list {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .names-list h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .name-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            transition: transform 0.2s ease;
+        }
+
+        .name-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .name-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .name-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            flex: 1;
+        }
+
+        .name-meta {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9em;
+            flex-wrap: wrap;
+        }
+
+        .name-content {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            max-height: 120px;
+            overflow-y: auto;
+            border-left: 4px solid #667eea;
+        }
+
+        .name-line {
+            margin-bottom: 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .name-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .name-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .name-meta {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Names Downloader</h1>
+            <p>Tải xuống danh sách names từ Sangtacviet một cách dễ dàng</p>
+        </div>
+
+        <form id="searchForm">
+            <div class="input-group">
+                <label for="urlInput">Nhập URL truyện Sangtacviet:</label>
+                <input type="url" id="urlInput" placeholder="https://sangtacviet.com/truyen/host/title/bookid" required>
+                <div class="example">
+                    <strong>Ví dụ:</strong> https://sangtacviet.com/truyen/uuxs/example-title/82614
+                </div>
+            </div>
+
+            <button type="submit" class="btn" id="searchBtn">
+                Tìm Names
+            </button>
+        </form>
+
+        <div id="status" class="status"></div>
+
+        <div id="namesList" class="names-list">
+            <h2>📋 Danh sách Names có sẵn</h2>
+            <div id="namesContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+            
+            if (type === 'loading') {
+                statusDiv.innerHTML = `<div class="loading-spinner"></div>${message}`;
+            } else {
+                statusDiv.innerHTML = message;
+            }
+        }
+
+        function hideStatus() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.style.display = 'none';
+        }
+
+        function parseNamesData(htmlContent) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+            const divs = doc.querySelectorAll('div[style*="white-space:nowrap"]');
+            
+            const names = [];
+            
+            divs.forEach((div, index) => {
+                const content = div.textContent.trim();
+                if (content) {
+                    // Tìm số lượng từ và thời gian
+                    let nextElement = div.parentElement.nextSibling;
+                    let wordCount = '';
+                    let timestamp = '';
+                    let title = '';
+                    
+                    // Lấy title từ element trước div
+                    let prevElement = div.parentElement.previousSibling;
+                    while (prevElement) {
+                        if (prevElement.nodeType === Node.TEXT_NODE && prevElement.textContent.trim()) {
+                            title = prevElement.textContent.trim();
+                            break;
+                        }
+                        prevElement = prevElement.previousSibling;
+                    }
+                    
+                    // Lấy word count và timestamp
+                    while (nextElement) {
+                        if (nextElement.nodeType === Node.TEXT_NODE) {
+                            const text = nextElement.textContent.trim();
+                            if (text && /^\d+$/.test(text)) {
+                                wordCount = text;
+                            } else if (text && text.includes('-')) {
+                                timestamp = text;
+                                break;
+                            }
+                        }
+                        nextElement = nextElement.nextSibling;
+                    }
+                    
+                    names.push({
+                        title: title || `Gói ${index + 1}`,
+                        content: content,
+                        wordCount: wordCount || 'N/A',
+                        timestamp: timestamp || 'N/A',
+                        index: index
+                    });
+                }
+            });
+            
+            return names;
+        }
+
+        function createNameItem(nameData) {
+            const lines = nameData.content.split('\n').filter(line => line.trim());
+            const displayLines = lines.slice(0, 5); // Hiển thị 5 dòng đầu
+            const hasMore = lines.length > 5;
+            
+            return `
+                <div class="name-item">
+                    <div class="name-header">
+                        <div class="name-title">${nameData.title}</div>
+                        <div class="name-meta">
+                            <span>📊 ${nameData.wordCount} từ</span>
+                            <span>🕒 ${nameData.timestamp}</span>
+                        </div>
+                    </div>
+                    <div class="name-content">
+                        ${displayLines.map(line => `<div class="name-line">${line}</div>`).join('')}
+                        ${hasMore ? `<div class="name-line" style="color: #999; font-style: italic;">... và ${lines.length - 5} dòng khác</div>` : ''}
+                    </div>
+                    <div class="name-actions">
+                        <button class="btn btn-small" onclick="downloadNameFile('${nameData.title}', \`${nameData.content.replace(/`/g, '\\`')}\`)">
+                            📥 Tải xuống TXT
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function downloadNameFile(title, content) {
+            // Xử lý content: loại bỏ $ ở đầu dòng và thay thế \n$
+            let processedContent = content;
+            if (processedContent.startsWith("$")) {
+                processedContent = processedContent.substring(1);
+            }
+            processedContent = processedContent.split('\n$').join('\n');
+            
+            // Tạo blob và tải xuống
+            const blob = new Blob([processedContent], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title.replace(/[^a-zA-Z0-9]/g, '_')}_names.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showStatus(`Đã tải xuống file "${title}"`, 'success');
+        }
+
+        async function fetchNamesData(url) {
+            if (url.slice(-1) === "/") url = url.slice(0, -1);
+
+            let host = url.split('/truyen/')[0];
+            let params = url.split('/truyen/')[1].split('/');
+            let bookid = params[2];
+            let bookhost = params[0];
+
+            if (!bookhost || !bookid) {
+                throw new Error("Link sai định dạng!");
+            }
+
+            // Sử dụng trực tiếp API của sangtacviet
+            let apiUrl = `${host.replace('sangtacviet.com', 'sangtacviet.app')}/namesys.php?host=${bookhost}&book=${bookid}`;
+
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const htmlContent = await response.text();
+            return parseNamesData(htmlContent);
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const urlInput = document.getElementById('urlInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const namesList = document.getElementById('namesList');
+            const namesContainer = document.getElementById('namesContainer');
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                showStatus('Vui lòng nhập URL!', 'error');
+                return;
+            }
+
+            if (!url.includes('/truyen/')) {
+                showStatus('URL không đúng định dạng! Vui lòng kiểm tra lại.', 'error');
+                return;
+            }
+
+            searchBtn.disabled = true;
+            searchBtn.textContent = 'Đang tìm...';
+            showStatus('Đang tìm kiếm names...', 'loading');
+            namesList.style.display = 'none';
+
+            try {
+                const names = await fetchNamesData(url);
+                
+                if (names.length === 0) {
+                    showStatus('Không tìm thấy names nào cho truyện này!', 'error');
+                    return;
+                }
+
+                namesContainer.innerHTML = names.map(createNameItem).join('');
+                namesList.style.display = 'block';
+                showStatus(`Tìm thấy ${names.length} gói names!`, 'success');
+                
+            } catch (error) {
+                console.error('Search failed:', error);
+                showStatus(`Lỗi: ${error.message}`, 'error');
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'Tìm Names';
+            }
+        });
+
+        // Clear status when user starts typing
+        document.getElementById('urlInput').addEventListener('input', function() {
+            hideStatus();
+        });
+    </script>
 </body>
 </html>
