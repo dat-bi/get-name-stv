@@ -1,3 +1,5 @@
+/* styles.css - Phiên bản đã sửa đổi để tối ưu hóa và làm đẹp hơn */
+
 * {
     margin: 0;
     padding: 0;
@@ -9,38 +11,51 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     padding: 20px;
+    display: flex; /* Căn giữa container theo chiều dọc */
+    justify-content: center; /* Căn giữa container theo chiều ngang */
+    align-items: center; /* Đảm bảo nội dung luôn ở giữa màn hình */
 }
 
 .container {
     background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); /* Hiệu ứng kính mờ */
+    -webkit-backdrop-filter: blur(10px); /* Hỗ trợ Safari */
     border-radius: 20px;
     padding: 40px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); /* Bóng đổ mạnh mẽ hơn */
     max-width: 800px;
-    margin: 0 auto;
+    width: 100%; /* Đảm bảo chiếm đủ chiều rộng */
+    margin: auto; /* Căn giữa theo chiều ngang nếu body không flex */
     text-align: center;
 }
 
 .header {
-    margin-bottom: 30px;
+    margin-bottom: 35px; /* Tăng khoảng cách dưới */
 }
 
 .header h1 {
     color: #333;
-    font-size: 2.5em;
-    margin-bottom: 10px;
+    font-size: 2.8em; /* Kích thước lớn hơn */
+    margin-bottom: 12px;
     background: linear-gradient(135deg, #667eea, #764ba2);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-weight: 700;
+    font-weight: 800; /* Đậm hơn */
+    letter-spacing: -0.5px; /* Giảm khoảng cách chữ */
 }
 
 .header p {
-    color: #666;
-    font-size: 1.1em;
+    color: #555; /* Màu tối hơn một chút */
+    font-size: 1.15em; /* Lớn hơn một chút */
     line-height: 1.6;
+}
+
+.header small {
+    display: block;
+    margin-top: 15px; /* Khoảng cách trên lớn hơn */
+    color: #777;
+    font-size: 0.95em;
 }
 
 .input-group {
@@ -50,36 +65,38 @@ body {
 
 .input-group label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 10px; /* Khoảng cách dưới lớn hơn */
     color: #333;
-    font-weight: 500;
-    font-size: 1.1em;
+    font-weight: 600; /* Đậm hơn */
+    font-size: 1.15em;
 }
 
 .input-group input {
     width: 100%;
-    padding: 15px 20px;
+    padding: 16px 20px; /* Padding lớn hơn */
     border: 2px solid #e1e5e9;
-    border-radius: 12px;
-    font-size: 1em;
+    border-radius: 14px; /* Bo tròn hơn */
+    font-size: 1.05em;
     transition: all 0.3s ease;
     background: #f8f9fa;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* Bóng đổ inset nhẹ */
 }
 
 .input-group input:focus {
     outline: none;
     border-color: #667eea;
     background: white;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2); /* Bóng đổ focus rõ hơn */
 }
 
 .example {
-    background: #f0f4ff;
+    background: #e9efff; /* Màu nền nhẹ hơn */
     padding: 15px;
-    border-radius: 8px;
-    margin-top: 10px;
-    font-size: 0.9em;
+    border-radius: 10px; /* Bo tròn hơn */
+    margin-top: 15px; /* Khoảng cách trên lớn hơn */
+    font-size: 0.95em;
     color: #555;
+    border-left: 5px solid #667eea; /* Thêm viền trái nổi bật */
 }
 
 .example strong {
@@ -87,21 +104,23 @@ body {
 }
 
 .btn {
+    display: inline-block; /* Để các nút nằm trên một hàng */
+    margin: 8px; /* Khoảng cách giữa các nút */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    padding: 15px 40px;
-    font-size: 0.9em;
-    font-weight: 400;
+    padding: 16px 40px; /* Padding lớn hơn */
+    font-size: 1em; /* Kích thước font phù hợp */
+    font-weight: 600; /* Đậm hơn */
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); /* Bóng đổ mạnh hơn khi hover */
 }
 
 .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    transform: translateY(-3px); /* Nâng lên cao hơn */
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5); /* Bóng đổ rõ hơn */
 }
 
 .btn:disabled {
@@ -112,17 +131,18 @@ body {
 }
 
 .btn-small {
-    padding: 8px 16px;
+    padding: 10px 20px; /* Nhỏ hơn so với nút chính */
     font-size: 0.9em;
-    min-width: 100px;
+    min-width: 120px; /* Đảm bảo đủ rộng */
 }
 
 .status {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    font-weight: 500;
+    margin-top: 25px; /* Khoảng cách trên lớn hơn */
+    padding: 18px; /* Padding lớn hơn */
+    border-radius: 10px; /* Bo tròn hơn */
+    font-weight: 600; /* Đậm hơn */
     display: none;
+    line-height: 1.5; /* Khoảng cách dòng */
 }
 
 .status.success {
@@ -145,13 +165,14 @@ body {
 
 .loading-spinner {
     display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid #b3d4fc;
+    width: 22px; /* Lớn hơn một chút */
+    height: 22px; /* Lớn hơn một chút */
+    border: 4px solid rgba(179, 212, 252, 0.5); /* Nhạt hơn */
     border-radius: 50%;
     border-top-color: #0c5460;
-    animation: spin 1s ease-in-out infinite;
-    margin-right: 10px;
+    animation: spin 0.8s ease-in-out infinite; /* Nhanh hơn một chút */
+    margin-right: 12px;
+    vertical-align: middle; /* Căn giữa với text */
 }
 
 @keyframes spin {
@@ -159,62 +180,76 @@ body {
 }
 
 .names-list {
-    margin-top: 30px;
+    margin-top: 40px; /* Khoảng cách trên lớn hơn */
     display: none;
+    /* Hiệu ứng mờ dần khi xuất hiện */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.names-list.show {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .names-list h2 {
     color: #333;
-    margin-bottom: 20px;
-    font-size: 1.8em;
+    margin-bottom: 25px; /* Khoảng cách dưới lớn hơn */
+    font-size: 2.2em; /* Lớn hơn */
+    font-weight: 700;
 }
 
 .name-item {
     background: white;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 15px; /* Bo tròn hơn */
+    padding: 25px; /* Padding lớn hơn */
+    margin-bottom: 20px; /* Khoảng cách dưới lớn hơn */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* Bóng đổ rõ hơn */
     text-align: left;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #eee; /* Viền nhẹ */
 }
 
 .name-item:hover {
-    transform: translateY(-2px);
+    transform: translateY(-5px); /* Nâng lên cao hơn */
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15); /* Bóng đổ rõ hơn khi hover */
 }
 
 .name-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 18px; /* Khoảng cách dưới lớn hơn */
     flex-wrap: wrap;
     gap: 15px;
 }
 
 .name-title {
-    font-size: 1.2em;
-    font-weight: 600;
+    font-size: 1.3em; /* Lớn hơn một chút */
+    font-weight: 700; /* Đậm hơn */
     color: #333;
 }
 
 .name-meta {
     color: #666;
-    font-size: 0.9em;
+    font-size: 0.95em;
+    font-weight: 500;
 }
 
 .name-content {
     background: #f8f9fa;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    max-height: 120px;
+    border-radius: 10px; /* Bo tròn hơn */
+    padding: 18px; /* Padding lớn hơn */
+    margin-bottom: 20px; /* Khoảng cách dưới lớn hơn */
+    max-height: 150px; /* Chiều cao tối đa lớn hơn */
     overflow-y: auto;
-    border-left: 4px solid #667eea;
-    font-family: monospace;
-    font-size: 0.9em;
-    color: #555;
+    border-left: 5px solid #667eea; /* Viền trái mạnh mẽ hơn */
+    font-family: 'Consolas', 'Monaco', monospace; /* Font monospace phổ biến hơn */
+    font-size: 0.95em;
+    color: #444;
     white-space: pre-line;
+    line-height: 1.4;
 }
 
 .name-actions {
@@ -222,17 +257,56 @@ body {
     justify-content: flex-end;
 }
 
+/* Thêm hiệu ứng cho namesContainer khi có dữ liệu */
+#namesContainer {
+    /* Mặc định được ẩn, sau đó hiển thị với transition */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
+    body {
+        padding: 15px;
+        align-items: flex-start; /* Để cuộn được trên màn hình nhỏ */
+    }
+
     .container {
-        padding: 30px 20px;
+        padding: 25px;
+        border-radius: 15px;
+        margin-top: 15px; /* Giảm khoảng cách trên cùng */
+        margin-bottom: 15px; /* Giảm khoảng cách dưới cùng */
     }
     
     .header h1 {
-        font-size: 2em;
+        font-size: 2.2em;
+    }
+
+    .btn {
+        width: calc(100% - 16px); /* Chiếm gần hết chiều rộng */
+        margin: 8px 0; /* Khoảng cách trên/dưới */
+        padding: 14px 20px;
     }
 
     .name-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 10px;
+    }
+
+    .name-title {
+        font-size: 1.2em;
+    }
+
+    .name-meta {
+        font-size: 0.9em;
+    }
+
+    .name-item {
+        padding: 18px;
+    }
+
+    .name-content {
+        padding: 15px;
+        max-height: 100px; /* Giảm chiều cao trên mobile */
     }
 }
