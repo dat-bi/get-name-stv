@@ -19,12 +19,6 @@ function showStatus(message, type) {
     } else {
         statusDiv.innerHTML = message;
     }
-    // Sau khi hiển thị status, ẩn nó sau vài giây (tùy chọn)
-    if (type !== 'loading') {
-        setTimeout(() => {
-            hideStatus();
-        }, 5000); // Ẩn sau 5 giây
-    }
 }
 
 function hideStatus() {
@@ -127,7 +121,7 @@ async function fetchNamesData(url) {
         throw new Error("URL không đúng định dạng!");
     }
 
-    const host = urlParts[0];
+    let host = urlParts[0];
     const params = urlParts[1].split('/');
     const bookhost = params[0];
     const bookid = params[2];
@@ -137,8 +131,7 @@ async function fetchNamesData(url) {
     }
 
     // Tạo API URL
-    // Thay thế cả sangtacviet.com và 14.225.254.182 bằng sangtacviet.app
-    const apiUrl = `${host.replace('sangtacviet.com', 'sangtacviet.app').replace('14.225.254.182', 'sangtacviet.app')}/namesys.php?host=${bookhost}&book=${bookid}`;
+    const apiUrl = `${host.replace('sangtacviet.com', 'sangtacviet.app')}/namesys.php?host=${bookhost}&book=${bookid}`;
     const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
 
     const response = await fetch(proxyUrl);
@@ -184,11 +177,7 @@ document.getElementById('searchForm').addEventListener('submit', async function 
     const namesContainer = document.getElementById('namesContainer');
     let url = urlInput.value.trim();
 
-    // Bạn đã có trình xử lý sự kiện cho pasteBtn riêng, nên không cần khối này ở đây.
-    // Xóa khối if (!url) { ... } nếu bạn muốn chỉ search khi có URL trong input.
-    // Nếu bạn muốn tự động paste từ clipboard khi search mà input rỗng,
-    // hãy di chuyển logic getUrlFromClipboard vào đây.
-    // Hiện tại, tôi sẽ giả định chức năng dán đã được xử lý bởi pasteBtn.
+    
 
     if (!url.includes('/truyen/')) {
         showStatus('URL không đúng định dạng!', 'error');
@@ -198,7 +187,7 @@ document.getElementById('searchForm').addEventListener('submit', async function 
     searchBtn.disabled = true;
     searchBtn.textContent = 'Đang tìm...';
     showStatus('Đang tìm kiếm names...', 'loading');
-    namesList.style.display = 'none'; // Ẩn danh sách cũ khi tìm kiếm mới
+    namesList.style.display = 'none';
 
     try {
         const names = await fetchNamesData(url);
@@ -211,9 +200,6 @@ document.getElementById('searchForm').addEventListener('submit', async function 
 
         namesContainer.innerHTML = names.map(createNameItem).join('');
         namesList.style.display = 'block';
-        // Thêm class 'show' để kích hoạt transition CSS
-        namesList.classList.add('show');
-
 
         // Tính tổng số names
         const totalNames = names.reduce((total, nameData) => {
@@ -233,9 +219,5 @@ document.getElementById('searchForm').addEventListener('submit', async function 
 });
 
 document.getElementById('urlInput').addEventListener('input', function () {
-    // Ẩn status khi người dùng bắt đầu nhập để xóa thông báo cũ
     hideStatus();
-    // Loại bỏ class 'show' để reset transition khi nhập liệu mới
-    document.getElementById('namesList').classList.remove('show');
-    document.getElementById('namesList').style.display = 'none'; // Ẩn ngay lập tức
 });
