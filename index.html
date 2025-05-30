@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sangtacviet Names Downloader</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h1>📚 Names Downloader</h1>
-            <p>Tải xuống danh sách names từ Sangtacviet một cách dễ dàng<br>
-            <small>💡 Tip: Copy URL vào clipboard rồi nhấn "Tìm Names" để tự động điền</small></p>
+            <p>
+                Tải xuống danh sách names từ Sangtacviet một cách dễ dàng<br />
+                <small>💡 Tip: Copy URL vào clipboard rồi nhấn "Dán URL từ clipboard" để tự động
+                    điền</small>
+            </p>
         </div>
 
         <form id="searchForm">
             <div class="input-group">
                 <label for="urlInput">Nhập URL truyện Sangtacviet:</label>
-                <input type="url" id="urlInput" placeholder="https://sangtacviet.com/truyen/host/title/bookid" required>
+                <input type="url" id="urlInput" placeholder="https://sangtacviet.com/truyen/host/title/bookid"
+                    required />
                 <div class="example">
-                    <strong>Ví dụ:</strong> https://sangtacviet.com/truyen/uuxs/example-title/82614
+                    <strong>Ví dụ:</strong>
+                    https://sangtacviet.com/truyen/uuxs/example-title/82614
                 </div>
             </div>
-
-            <button type="submit" class="btn" id="searchBtn">
-                Tìm Names
-            </button>
+            <button class="btn" id="pasteBtn">📋 Dán URL từ clipboard</button>
+            <button type="submit" class="btn" id="searchBtn">🔎 Tìm Names</button>
         </form>
 
         <div id="status" class="status"></div>
@@ -38,4 +43,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

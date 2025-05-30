@@ -1,3 +1,14 @@
+document.getElementById('pasteBtn').addEventListener('click', async function () {
+    const urlInput = document.getElementById('urlInput');
+    const clipboardUrl = await getUrlFromClipboard();
+    if (clipboardUrl) {
+        urlInput.value = clipboardUrl;
+        showStatus('✅ Đã dán URL từ clipboard!', 'success');
+    } else {
+        showStatus('❌ Không thể lấy URL từ clipboard!', 'error');
+    }
+});
+
 function showStatus(message, type) {
     const statusDiv = document.getElementById('status');
     statusDiv.className = `status ${type}`;
@@ -140,19 +151,6 @@ async function fetchNamesData(url) {
 
 async function getUrlFromClipboard() {
     try {
-        // Kiểm tra xem có hỗ trợ clipboard API không
-        if (!navigator.clipboard) {
-            console.log('Clipboard API không được hỗ trợ');
-            return null;
-        }
-
-        // Kiểm tra quyền truy cập clipboard
-        const permission = await navigator.permissions.query({ name: 'clipboard-read' });
-        if (permission.state === 'denied') {
-            console.log('Không có quyền đọc clipboard');
-            return null;
-        }
-
         const text = await navigator.clipboard.readText();
         const trimmedText = text.trim();
 
@@ -181,20 +179,16 @@ document.getElementById('searchForm').addEventListener('submit', async function 
 
     // Nếu không có URL trong input, thử lấy từ clipboard
     if (!url) {
-        showStatus('Đang thử lấy URL từ clipboard...', 'loading');
-
-        const clipboardUrl = await getUrlFromClipboard();
-        if (clipboardUrl) {
-            url = clipboardUrl;
-            urlInput.value = url;
-            showStatus('✅ Đã lấy URL từ clipboard!', 'success');
-            // Đợi 1.5 giây để user thấy thông báo
-            await new Promise(resolve => setTimeout(resolve, 1500));
-        } else {
-            showStatus('❌ Không thể lấy URL từ clipboard. Vui lòng dán URL vào ô input!', 'error');
-            urlInput.focus(); // Focus vào ô input
-            return;
-        }
+        searchBtn.addEventListener('click', async function () {
+            const urlInput = document.getElementById('urlInput');
+            const clipboardUrl = await getUrlFromClipboard();
+            if (clipboardUrl) {
+                urlInput.value = clipboardUrl;
+                showStatus('✅ Đã dán URL từ clipboard!', 'success');
+            } else {
+                showStatus('❌ Không thể lấy URL từ clipboard!', 'error');
+            }
+        });
     }
 
     if (!url.includes('/truyen/')) {
