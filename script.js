@@ -121,7 +121,7 @@ async function fetchNamesData(url) {
 
     // Tạo API URL
     const apiUrl = `${host.replace('sangtacviet.com', 'sangtacviet.app')}/namesys.php?host=${bookhost}&book=${bookid}`;
-    const proxyUrl = `http://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
 
     const response = await fetch(proxyUrl);
     if (!response.ok) {
