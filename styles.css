@@ -80,6 +80,8 @@ body {
     margin-top: 10px;
     font-size: 0.9em;
     color: #555;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .example strong {
@@ -113,24 +115,33 @@ body {
     color: #0c5460;
     border: 1px solid #bee5eb;
 }
+
 .btn {
-    display: inline-block; /* Để các nút nằm trên một hàng */
-    margin: 8px; /* Khoảng cách giữa các nút */
+    display: inline-block;
+    /* Để các nút nằm trên một hàng */
+    margin: 8px;
+    /* Khoảng cách giữa các nút */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    padding: 16px 40px; /* Padding lớn hơn */
-    font-size: 1em; /* Kích thước font phù hợp */
-    font-weight: 600; /* Đậm hơn */
+    padding: 16px 40px;
+    /* Padding lớn hơn */
+    font-size: 1em;
+    /* Kích thước font phù hợp */
+    font-weight: 600;
+    /* Đậm hơn */
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); /* Bóng đổ mạnh hơn khi hover */
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    /* Bóng đổ mạnh hơn khi hover */
 }
 
 .btn:hover {
-    transform: translateY(-3px); /* Nâng lên cao hơn */
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5); /* Bóng đổ rõ hơn */
+    transform: translateY(-3px);
+    /* Nâng lên cao hơn */
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+    /* Bóng đổ rõ hơn */
 }
 
 .btn:disabled {
@@ -141,9 +152,11 @@ body {
 }
 
 .btn-small {
-    padding: 10px 20px; /* Nhỏ hơn so với nút chính */
+    padding: 10px 20px;
+    /* Nhỏ hơn so với nút chính */
     font-size: 0.9em;
-    min-width: 120px; /* Đảm bảo đủ rộng */
+    min-width: 120px;
+    /* Đảm bảo đủ rộng */
 }
 
 .loading-spinner {
@@ -158,7 +171,9 @@ body {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .names-list {
@@ -228,23 +243,28 @@ body {
 @media (max-width: 768px) {
     body {
         padding: 15px;
-        align-items: flex-start; /* Để cuộn được trên màn hình nhỏ */
+        align-items: flex-start;
+        /* Để cuộn được trên màn hình nhỏ */
     }
 
     .container {
         padding: 25px;
         border-radius: 15px;
-        margin-top: 15px; /* Giảm khoảng cách trên cùng */
-        margin-bottom: 15px; /* Giảm khoảng cách dưới cùng */
+        margin-top: 15px;
+        /* Giảm khoảng cách trên cùng */
+        margin-bottom: 15px;
+        /* Giảm khoảng cách dưới cùng */
     }
-    
+
     .header h1 {
         font-size: 2.2em;
     }
 
     .btn {
-        width: calc(100% - 16px); /* Chiếm gần hết chiều rộng */
-        margin: 8px 0; /* Khoảng cách trên/dưới */
+        width: calc(100% - 16px);
+        /* Chiếm gần hết chiều rộng */
+        margin: 8px 0;
+        /* Khoảng cách trên/dưới */
         padding: 14px 20px;
     }
 
@@ -268,6 +288,7 @@ body {
 
     .name-content {
         padding: 15px;
-        max-height: 100px; /* Giảm chiều cao trên mobile */
+        max-height: 100px;
+        /* Giảm chiều cao trên mobile */
     }
 }
