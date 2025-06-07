@@ -104,7 +104,7 @@ function downloadNameFile(title, index) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${title.replace(/[^a-zA-Z0-9]/g, '_')}_names.txt`;
+    a.download = `${title.replace(/\s/g, '_')}_names.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -178,7 +178,7 @@ document.getElementById('searchForm').addEventListener('submit', async function 
     const namesContainer = document.getElementById('namesContainer');
     let url = urlInput.value.trim();
 
-    
+
 
     if (!url.includes('/truyen/')) {
         showStatus('URL không đúng định dạng!', 'error');
