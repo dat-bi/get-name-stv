@@ -13,7 +13,7 @@
         <div class="header">
             <h1>📚 Names Downloader</h1>
             <p>
-                Tải xuống danh sách names từ Sangtacviet một cách dễ dàng<br />
+                Tải xuống danh sách names từ Sangtacviet và Wikidich một cách dễ dàng<br />
                 <small>💡 Tip: Copy URL vào clipboard rồi nhấn "Dán URL từ clipboard" để
                     tự động điền</small>
             </p>
@@ -21,14 +21,16 @@
 
         <form id="searchForm">
             <div class="input-group">
-                <label for="urlInput">Nhập URL truyện Sangtacviet:</label>
-                <input type="url" id="urlInput" placeholder="https://sangtacviet.com/truyen/host/1/bookid" required />
+                <label for="urlInput">Nhập URL truyện (Sangtacviet hoặc Wikidich):</label>
+                <input type="url" id="urlInput" placeholder="https://sangtacviet.com/truyen/... hoặc https://truyenwikidich.net/truyen/..." required />
                 <div class="example">
-                    <strong>Ví dụ:</strong>
-                    https://sangtacviet.com/truyen/qidian/1/1044764289/
+                    <strong>Ví dụ Sangtacviet:</strong>
+                    https://sangtacviet.com/truyen/qidian/1/1044764289/<br>
+                    <strong>Ví dụ Wikidich:</strong>
+                    https://truyenwikidich.net/truyen/ta-co-mot-loat-thanh-nhiem-vu-XvVZ1VS4CCU8FJjw
                 </div>
             </div>
-            <button class="btn" id="pasteBtn">📋 Dán URL từ clipboard</button>
+            <button type="button" class="btn" id="pasteBtn">📋 Dán URL từ clipboard</button>
             <button type="submit" class="btn" id="searchBtn">🔎 Tìm Names</button>
         </form>
 
@@ -40,7 +42,7 @@
         </div>
     </div>
 
-    <script src="main.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

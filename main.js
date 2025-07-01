@@ -182,6 +182,8 @@ document.getElementById('searchForm').addEventListener('submit', async function 
     const namesContainer = document.getElementById('namesContainer');
     let url = urlInput.value.trim();
 
+    let regexSTV = "/\/truyen\/.*?\/1\/.*?\//gmi"
+    let regexWiki = "/wikidich.*?\/truyen\/.*?/"
     if (!url.includes('/truyen/')) {
         showStatus('URL không đúng định dạng!', 'error');
         return;
